@@ -1,6 +1,7 @@
 package com.productservice.productwithfakestore2.controllers;
 
-import com.productservice.productwithfakestore2.dtos.ProductDto;
+import com.productservice.productwithfakestore2.dtos.GenericProductDto;
+import com.productservice.productwithfakestore2.exceptions.NotFoundException;
 import com.productservice.productwithfakestore2.models.Product;
 import com.productservice.productwithfakestore2.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -21,41 +23,43 @@ public class ProductController {
         this.productService=productService;
     }
     @GetMapping("")
-    public List<Product> getAllProducts(){
+    public List<GenericProductDto> getAllProducts(){
         return productService.getAllProducts();
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId){
+    public ResponseEntity<GenericProductDto> getSingleProduct(@PathVariable("productId") Long productId) throws NotFoundException {
 
 
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 
         headers.add("auth-token","notokenbro");
         //we can add header used for authentication but it is just testing
-        ResponseEntity<Product> response = new ResponseEntity<>(
-                productService.getSingleProduct(productId),
+
+        GenericProductDto genericProductDto = productService.getSingleProduct((productId));
+
+
+        ResponseEntity<GenericProductDto> response = new ResponseEntity<>(
+                genericProductDto,
                 headers,
                 HttpStatus.OK
         );
-
-
 
         return response;
     }
 
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto productdto){
+    public ResponseEntity<GenericProductDto> addNewProduct(@RequestBody GenericProductDto productdto){
         ResponseEntity response = new ResponseEntity(
                 productService.addNewProduct(productdto),HttpStatus.OK
         );
         return response;
     }
 
-    @PutMapping("/{productId}")
+    @PatchMapping ("/{productId}")
 
-    public ResponseEntity<Product> updateProduct(@PathVariable("productId")Long productId,
-                                @RequestBody ProductDto productDto){
+    public ResponseEntity<GenericProductDto> updateProduct(@PathVariable("productId")Long productId,
+                                @RequestBody GenericProductDto productDto){
         ResponseEntity response = new ResponseEntity(
                 productService.updateProduct(productId,productDto),
                 HttpStatus.OK
@@ -65,13 +69,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("productId")Long productId){
-        Boolean isDeleted = productService.deleteProduct(productId);
-        if (isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 Not Found
-        }
+    public ResponseEntity<GenericProductDto> deleteProduct(@PathVariable("productId")Long productId) throws NotFoundException {
+        GenericProductDto genericProductDto = productService.deleteProduct(productId);
+
+      return new ResponseEntity<>(genericProductDto,HttpStatus.OK);
     }
+
+
 
 }

@@ -1,17 +1,19 @@
 package com.productservice.productwithfakestore2.services;
+import com.productservice.productwithfakestore2.dtos.GenericProductDto;
+import com.productservice.productwithfakestore2.exceptions.NotFoundException;
 
-import com.productservice.productwithfakestore2.dtos.ProductDto;
-import com.productservice.productwithfakestore2.models.Product;
 
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
-    List<Product> getAllProducts();
-    Product getSingleProduct( Long productId);
+    List<GenericProductDto> getAllProducts();
+    GenericProductDto getSingleProduct(Long productId) throws NotFoundException;
 
-    Product addNewProduct( ProductDto productdto);
-    Product updateProduct(Long productId,
-                        ProductDto product);
-    Boolean deleteProduct(Long productId);
+    GenericProductDto addNewProduct( GenericProductDto productdto);
+    GenericProductDto updateProduct(Long productId,
+                        GenericProductDto product);
+    GenericProductDto deleteProduct(Long productId) throws NotFoundException;
+
 }
