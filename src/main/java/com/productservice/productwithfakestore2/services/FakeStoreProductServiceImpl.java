@@ -1,5 +1,6 @@
 package com.productservice.productwithfakestore2.services;
 
+import com.productservice.productwithfakestore2.dtos.DtoConverter;
 import com.productservice.productwithfakestore2.exceptions.NotFoundException;
 import com.productservice.productwithfakestore2.thirdPartyClients.fakestoreApi.FakeStoreClient;
 import com.productservice.productwithfakestore2.thirdPartyClients.fakestoreApi.FakeStoreProductDto;
@@ -24,19 +25,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         this.fakeStoreClient=fakeStoreClient;
     }
 
-    private GenericProductDto convertFakeStoreProductDtoToGenericProductDto(
-            FakeStoreProductDto fakeStoreProductDto) {
 
-        GenericProductDto product1 = new GenericProductDto();
-        product1.setId(fakeStoreProductDto.getId());
-        product1.setTitle(fakeStoreProductDto.getTitle());
-        product1.setPrice(fakeStoreProductDto.getPrice());
-        product1.setCategory(fakeStoreProductDto.getCategory());
-        product1.setImage(fakeStoreProductDto.getImage());
-        product1.setDescription(fakeStoreProductDto.getDescription());
-
-        return  product1;
-    }
 
     //for patch and delete (generic calls)
 
@@ -50,7 +39,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         List<GenericProductDto>ans = new ArrayList<>() ;
         for(FakeStoreProductDto fakeStoreProductDto : temp){
 
-            GenericProductDto product = convertFakeStoreProductDtoToGenericProductDto(fakeStoreProductDto);
+            GenericProductDto product = DtoConverter.convertFakeStoreProductDtoToGenericProductDto(fakeStoreProductDto);
             ans.add(product);
 
         }
@@ -60,18 +49,18 @@ public class FakeStoreProductServiceImpl implements ProductService{
     @Override
     public GenericProductDto getSingleProduct(Long productId) throws NotFoundException {
         FakeStoreProductDto fakeStoreProductDto = fakeStoreClient.getSingleProduct(productId);
-        return convertFakeStoreProductDtoToGenericProductDto(fakeStoreProductDto);
+        return DtoConverter.convertFakeStoreProductDtoToGenericProductDto(fakeStoreProductDto);
     }
 
     @Override
     public GenericProductDto addNewProduct(GenericProductDto productDto) {
-      return  convertFakeStoreProductDtoToGenericProductDto(fakeStoreClient.addNewProduct(productDto));
+      return  DtoConverter.convertFakeStoreProductDtoToGenericProductDto(fakeStoreClient.addNewProduct(productDto));
     }
 
     @Override
     public GenericProductDto updateProduct(Long productId, GenericProductDto productDto) {
 
-        return convertFakeStoreProductDtoToGenericProductDto(
+        return DtoConverter.convertFakeStoreProductDtoToGenericProductDto(
                 fakeStoreClient.updateProduct(productId, productDto));
 
 
@@ -80,9 +69,23 @@ public class FakeStoreProductServiceImpl implements ProductService{
     @Override
     public GenericProductDto deleteProduct(Long productId) throws NotFoundException {
 
-     return convertFakeStoreProductDtoToGenericProductDto(fakeStoreClient.deleteProduct(productId));
+     return DtoConverter.convertFakeStoreProductDtoToGenericProductDto(fakeStoreClient.deleteProduct(productId));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

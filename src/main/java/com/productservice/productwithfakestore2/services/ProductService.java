@@ -13,7 +13,7 @@ public interface ProductService {
 
     GenericProductDto addNewProduct( GenericProductDto productdto);
     GenericProductDto updateProduct(Long productId,
-                        GenericProductDto product);
+                        GenericProductDto product) throws NotFoundException;
     GenericProductDto deleteProduct(Long productId) throws NotFoundException;
 
 }

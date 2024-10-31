@@ -111,4 +111,25 @@ public class FakeStoreClient {
         return fakeStoreProductDto;
     }
 
+    public List<FakeStoreCategoryDto> getAllCategories(){
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        String url = "https://fakestoreapi.com/products/categories";
+
+        ResponseEntity<FakeStoreCategoryDto[]> l = restTemplate.getForEntity(url,
+
+                FakeStoreCategoryDto[].class );
+
+
+        return Arrays.asList(l.getBody());
+
+    }
+
+    public List<FakeStoreProductDto> getProductsByCategory(String categoryName){
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        String url = "https://fakestoreapi.com/products/category/{categoryName}";
+        ResponseEntity<FakeStoreProductDto[]> response = restTemplate.getForEntity(url, FakeStoreProductDto[].class,categoryName);
+
+        return Arrays.asList(response.getBody());
+    }
+
 }

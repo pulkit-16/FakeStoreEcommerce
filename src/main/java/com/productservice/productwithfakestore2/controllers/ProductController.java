@@ -4,6 +4,7 @@ import com.productservice.productwithfakestore2.dtos.GenericProductDto;
 import com.productservice.productwithfakestore2.exceptions.NotFoundException;
 import com.productservice.productwithfakestore2.models.Product;
 import com.productservice.productwithfakestore2.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,7 +20,7 @@ public class ProductController {
 
     private ProductService productService;
 
-    public ProductController(ProductService productService){
+    public ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService=productService;
     }
     @GetMapping("")
@@ -59,7 +60,7 @@ public class ProductController {
     @PatchMapping ("/{productId}")
 
     public ResponseEntity<GenericProductDto> updateProduct(@PathVariable("productId")Long productId,
-                                @RequestBody GenericProductDto productDto){
+                                @RequestBody GenericProductDto productDto) throws NotFoundException {
         ResponseEntity response = new ResponseEntity(
                 productService.updateProduct(productId,productDto),
                 HttpStatus.OK
