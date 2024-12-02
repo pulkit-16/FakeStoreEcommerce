@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service(value ="selfCategoryService")
 public class SelfCategoryService implements   CategoryService{
     private CategoryRepository categoryRepository;
     private ProductRepository productRepository;

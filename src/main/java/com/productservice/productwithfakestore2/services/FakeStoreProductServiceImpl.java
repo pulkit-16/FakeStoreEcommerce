@@ -8,6 +8,7 @@ import com.productservice.productwithfakestore2.dtos.GenericProductDto;
 import com.productservice.productwithfakestore2.models.Category;
 import com.productservice.productwithfakestore2.models.Product;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service(value = "fakeStoreProductService")
+@Primary
 public class FakeStoreProductServiceImpl implements ProductService{
 
     private FakeStoreClient fakeStoreClient;

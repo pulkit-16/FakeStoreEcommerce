@@ -6,6 +6,7 @@ import com.productservice.productwithfakestore2.dtos.GenericProductDto;
 import com.productservice.productwithfakestore2.thirdPartyClients.fakestoreApi.FakeStoreCategoryDto;
 import com.productservice.productwithfakestore2.thirdPartyClients.fakestoreApi.FakeStoreClient;
 import com.productservice.productwithfakestore2.thirdPartyClients.fakestoreApi.FakeStoreProductDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ import java.util.List;
 public class FakeStoreCategoryServiceImpl implements CategoryService {
 
     private final FakeStoreClient fakeStoreClient;
-    private final FakeStoreProductServiceImpl fakeStoreProductService;
-    public FakeStoreCategoryServiceImpl(FakeStoreClient fakeStoreClient,FakeStoreProductServiceImpl fakeStoreProductService){
+
+    public FakeStoreCategoryServiceImpl(FakeStoreClient fakeStoreClient){
         this.fakeStoreClient= fakeStoreClient;
-        this.fakeStoreProductService = fakeStoreProductService;
+
     }
     private GenericCategoryDto convertFakeStoreCategoryDtoToGenericCategoryDto(
             FakeStoreCategoryDto fakeStoreCategoryDto) {

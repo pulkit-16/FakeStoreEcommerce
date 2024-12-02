@@ -2,9 +2,9 @@ package com.productservice.productwithfakestore2.controllers;
 
 import com.productservice.productwithfakestore2.dtos.GenericProductDto;
 import com.productservice.productwithfakestore2.exceptions.NotFoundException;
-import com.productservice.productwithfakestore2.models.Product;
+
 import com.productservice.productwithfakestore2.services.ProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/products")
@@ -20,11 +20,11 @@ public class ProductController {
 
     private ProductService productService;
 
-    public ProductController(@Qualifier("selfProductService") ProductService productService){
+    public ProductController(ProductService productService){
         this.productService=productService;
     }
     @GetMapping("")
-    public List<GenericProductDto> getAllProducts(){
+    public List<GenericProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 

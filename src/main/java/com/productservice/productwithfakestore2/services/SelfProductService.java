@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service
+@Service(value = "selfProductService")
 public class SelfProductService implements ProductService {
     private ProductRepository productRepository;
 
@@ -40,7 +40,13 @@ public class SelfProductService implements ProductService {
 
     @Override
     public GenericProductDto getSingleProduct(Long productId) throws NotFoundException {
-        return null;
+        Product product = productRepository.findProductById(productId);
+
+        if(product==null){
+            throw new NotFoundException("Product not found");
+        }
+        GenericProductDto genericProductDto = DtoConverter.convertProductToGenericProductDto(product);
+        return genericProductDto;
     }
 
     @Override
